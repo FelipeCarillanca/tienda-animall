@@ -87,3 +87,12 @@
     background: none;
 }
  /** FIN LOGIN**/
+ .precio{
+   border: px solid rgb(161, 143, 143);
+   font-weight: 500 ;
+
+ }
+ .row{
+   justify-items: center;
+   align-items: center;
+ }
