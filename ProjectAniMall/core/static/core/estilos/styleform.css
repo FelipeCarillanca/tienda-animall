@@ -1,0 +1,125 @@
+
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    background: rgb(150, 149, 149);
+    font-family: sans-serif;
+}
+
+.container{
+    max-width: 90%;
+    margin: auto;
+    margin-top: 0px;
+}
+
+[type="checkbox"]{
+    display: none;
+}
+
+[type="checkbox"]:checked + label::before{
+    background: black;
+    transition: 0.5s;
+    transform: rotate(180deg);
+}
+   
+.form-termAndConditions{
+    margin-left: 15px;
+    position: relative;
+
+}
+
+.form-termAndConditions label::before{
+    content: "";
+    width: 8px;
+    height: 8px;
+    border: 1px solid black;
+    position: absolute;
+    left: -14px;
+}
+
+.form-boton input{
+    background: black;
+    color: white;
+    padding: 10px 50px;
+    font-size: 25px;
+    display: block;
+    margin: auto;
+    margin-top: 40px;
+}
+
+
+
+
+
+
+.form{
+    border-top: 2px solid black;
+    max-width: 400px;
+    padding: 30px 50px;
+    margin: auto;
+    margin-top: 10px;
+    background-color: rgb(56, 134, 160);
+}
+
+.form-titulo{
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    margin: 0;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+}
+
+.form-input{
+    margin-bottom: 30px;
+}
+
+.form-input label{
+    display: block;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.form-input input{
+    width: 100%;
+    border: none;
+    outline: none;
+    background: none;
+    border-bottom: 2px solid black;
+}
+
+.form-input input:focus + label{
+    font-weight: bold;
+    color: goldenrod;
+
+}
+
+.form-boton input{
+    background: black;
+    color: white;
+    padding: 10px 50px;
+    font-size: 20px;
+    display: block;
+    margin: auto;
+    margin-top: 40px;
+}
+
+.form-boton input:hover {
+    background: black;
+    transition: 0.5s;
+}
+
+.mensajeError{
+    color: rgb(165, 59, 59);
+    margin-top: 0px;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.mensajeCorrecto{
+    text-align: center;
+
+}
