@@ -32,8 +32,7 @@ urlpatterns = [
    path('eliminar_comida_gato/<id>/',     eliminar_comida_gato,     name="eliminar_comida_gato"),
    path('eliminar_comida_perro/<id>/',     eliminar_comida_perro,     name="eliminar_comida_perro"),
    path('registro/', registro, name="registro"),
-
-
+   
 
    path('api/', include(router.urls)),
    

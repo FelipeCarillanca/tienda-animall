@@ -84,6 +84,7 @@
                   <td>{{ve.nombre}}</td>
                   <td>{{ve.precio}}</td>
                   <td>{{ve.descripcion}}</td>
+                  
                   {% if perms.core.change_comidaperro %}
                   <td><a href="{% url 'form_modi_perro' ve.idPerro %}"> Modificar</a>
                   {% endif %}

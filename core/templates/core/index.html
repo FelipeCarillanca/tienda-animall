@@ -36,9 +36,11 @@
                                 <li class="nav-item">
                                   <a class="nav-link" href="{% url 'mostrarperros' %}">Imagenes</a>
                               </li>
+                              {% if perms.core.view_registro %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'registro' %}">Registro</a>
                                 </li>
+                                {% endif %}
    
                                 {% if perms.core.view_accesorio %}
                               <li class="nav-item">

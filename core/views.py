@@ -1,6 +1,8 @@
+from ast import parse
 from email import message
 from gc import get_objects
 from pyexpat.errors import messages
+from venv import create
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import comidagato, comidaperro, accesorio
 from rest_framework import viewsets
@@ -14,6 +16,9 @@ from django.http import HttpResponse
 from .serializers import comidagatoSerializer, comidaperroSerializer, accesorioSerializer
 from .forms import accesorioForm, agregarcomidaPerroForm,agregarcomidaGatoForm,formregistrousuario
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import check_password
+from rest_framework.authtoken.models import Token
 
 
 class comidagatoViewset(viewsets.ModelViewSet):
@@ -228,3 +233,40 @@ def registro (request):
 
 
 
+@csrf_exempt
+@api_view(['GET','POST'])
+def listar_accesorios_api(request):
+
+    if request.method =='GET':
+        accesorios = accesorio.objects.all()
+        serializer = accesorioSerializer(accesorios, many=True)
+        return Response(serializer.data)
+    elif  request.method =='POST':
+        data = JSONParser().parse(request)
+        serializer = accesorioSerializer(data=data)
+        if serializer.is_valid():
+
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def login_api(request):
+    data = JSONParser().parse(request)
+
+    username = data ['username']
+    password = data ['password']
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return Response("Usuario invalido")
+    pass_valido = check_password(password, user.password)
+    if not pass_valido:
+        return Response("password incorrecta")
+
+    token, created = Token.objects.get_or_create(user=user)
+    return Response(token.key)
+    

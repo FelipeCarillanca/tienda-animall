@@ -62,13 +62,14 @@
         <div class="row">
             <div class="cold-12 col-md6 offset-md3">
             <form method="post" action="" id="formulario">
-              <center> <h2>Agregar Comida de Gatos</h2></center><br><br>
+              <center> <h2>Agregar Comida de Gatos</h2><br>
+              <table class="col-sm-12 table-bordered table-striped table-condensed cf" style="width: 50%;">
               <div class="d-flex justify-content-center">
                 {% csrf_token %}
                 <div class="form-group">
                 {{ form }}
                 </div>
-            </div><br>
+            </div><br></table></center>
             <div class="d-flex justify-content-end">
                 <input type="submit" class="btn btn-danger" id="enviar" value="Enviar">
                 <input type="reset" class="btn btn-primary" id="limpiar" value="Limpiar">
