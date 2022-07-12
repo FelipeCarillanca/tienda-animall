@@ -3,4 +3,5 @@ cx_oracle
 pillow
 django-seed
 django-rest-framework
+django-crispy-forms
 

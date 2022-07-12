@@ -34,22 +34,37 @@
                                 <a class="nav-link" href="{% url 'carro' %}">Carro</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'formulariocontacto' %}">Registro</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'login' %}">Login</a>
-                                </li>
-                                <li class="nav-item">
                                   <a class="nav-link" href="{% url 'mostrarperros' %}">Imagenes</a>
                               </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'registro' %}">Registro</a>
+                                </li>
+   
+                                {% if perms.core.view_accesorio %}
                               <li class="nav-item">
                                 <a class="nav-link" href="{% url 'listarproductos' %}">Lista Productos</a>
-                              
+                                {% endif %}
+                                
                             </li> 
+                            {% if perms.core.add_accesorio %}
                             <li class="nav-item">
                               <a class="nav-link" href="{% url 'form_accesorio' %}">Agregar Productos</a>
-                            
-                          </li>                           
+                          </li>  
+                          {% endif %}
+
+                          {% if user.is_authenticated%}      
+                          <li class="nav-item justify-content-end" >
+                              <a class="nav-link " href="{% url 'logout' %}">Cerrar Sesión</a>
+                          </li>
+                          <li class="nav-item justify-content-end" >
+                            <a class="nav-link " href="#">@{{user.username}}</a>
+                        </li>
+                          {% else %} 
+                          <li class="nav-item justify-content-end" >
+                            <a class="nav-link " href="{% url 'login' %}">Iniciar Sesión</a>
+                          </li>
+
+                          {% endif %}                   
                                 </ul>
                             </div>
                             </div>

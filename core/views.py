@@ -1,13 +1,19 @@
+from email import message
 from gc import get_objects
+from pyexpat.errors import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import comidagato, comidaperro, accesorio
 from rest_framework import viewsets
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse 
 from .serializers import comidagatoSerializer, comidaperroSerializer, accesorioSerializer
-from .forms import accesorioForm, agregarcomidaPerroForm,agregarcomidaGatoForm
-
-
-
+from .forms import accesorioForm, agregarcomidaPerroForm,agregarcomidaGatoForm,formregistrousuario
+from django.contrib.auth import authenticate, login
 
 
 class comidagatoViewset(viewsets.ModelViewSet):
@@ -49,6 +55,7 @@ def perros(request):
 def carro(request):
     return render(request, 'core/carro.html')
 
+@permission_required('core.view_comidagato')
 def listarproductos(request):
     comidaGA = comidagato.objects.all()
     datos ={
@@ -56,6 +63,7 @@ def listarproductos(request):
     }
     return render(request, 'core/listarproductos.html',datos)
 
+@permission_required('core.view_comidaperro')
 def listarperro(request):
     comidaPERRO = comidaperro.objects.all()
     datos ={
@@ -63,6 +71,7 @@ def listarperro(request):
     }
     return render(request, 'core/listarperro.html',datos)
 
+@permission_required('core.view_accesorio')
 def listaraccesorios(request):
     accesorios = accesorio.objects.all()
     datos ={
@@ -70,6 +79,10 @@ def listaraccesorios(request):
     }
     return render(request, 'core/listaraccesorios.html',datos)
 
+"""AGREGAR ACCESORIOS"""
+@permission_required('core.add_accesorio')
+@permission_required('core.change_accesorio')
+@permission_required('core.delete_accesorio')
 def form_accesorio(request):
     data = {
         'form': accesorioForm()
@@ -85,7 +98,9 @@ def form_accesorio(request):
     return render (request, 'core/form_accesorio.html', data)
 
 """AGREGAR LOS PRODUCTOS COMIDA PARA PERRO"""
-
+@permission_required('core.add_comidaperro')
+@permission_required('core.change_comidaperro')
+@permission_required('core.delete_comidaperro')
 def form_agregar_comida_perro(request):
     data = {
         'form': agregarcomidaPerroForm()
@@ -102,7 +117,9 @@ def form_agregar_comida_perro(request):
 
 
 """AGREGAR LOS PRODUCTOS COMIDA PARA GATO"""
-
+@permission_required('core.add_comidagato')
+@permission_required('core.change_comidagato')
+@permission_required('core.delete_comidagato')
 def form_agregar_comida_gato(request):
     data = {
         'form': agregarcomidaGatoForm()
@@ -172,3 +189,42 @@ def form_modi_gato(request, id):
             datos ['form'] = formulario
 
     return render(request, 'core/form_modi_gato.html',datos)
+
+"""ELIMINAR PRODUCTOS"""
+
+def eliminar_accesorio(request, id):
+    accesorios =  accesorio.objects.get(idAccesorio=id)
+    accesorios.delete()
+    return redirect (to="listaraccesorios")
+
+
+"""ELIMINAR COMIDA GATO"""
+
+def eliminar_comida_gato(request, id):
+    comidagatos =  comidagato.objects.get(idGato=id)
+    comidagatos.delete()
+    return redirect (to="listaraccesorios")
+
+
+"""ELIMINAR COMIDA PERRO"""
+
+def eliminar_comida_perro(request, id):
+    comidaperros =  comidaperro.objects.get(idPerro=id)
+    comidaperros.delete()
+    return redirect (to="listarperro")
+
+def registro (request):
+    data = {
+        'form': formregistrousuario()
+    } 
+    if request.method == 'POST':
+        formulario = formregistrousuario(data=request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            user = authenticate(usarname=formulario.cleaned_data["username"], password=formulario.cleaned_data["password1"])
+            return redirect(to="index")
+        data["form"] = formulario
+    return render (request, 'registration/registrarse.html',data)
+
+
+

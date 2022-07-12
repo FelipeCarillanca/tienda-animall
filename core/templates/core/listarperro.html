@@ -73,6 +73,7 @@
                   <th scope="col">PRECIO</th>
                   <th scope="col">DESCRIPCION</th>
                   <th scope="col">OPCIONES</th>
+                  
     
                 </tr>
               </thead>
@@ -83,8 +84,13 @@
                   <td>{{ve.nombre}}</td>
                   <td>{{ve.precio}}</td>
                   <td>{{ve.descripcion}}</td>
-                 <td><a href="{% url 'form_modi_perro' ve.idPerro %}"> Modificar</a></td>
-    
+                  {% if perms.core.change_comidaperro %}
+                  <td><a href="{% url 'form_modi_perro' ve.idPerro %}"> Modificar</a>
+                  {% endif %}
+
+                  {% if perms.core.delete_comidaperro  %}
+                 <a href="{% url 'eliminar_comida_perro' ve.idPerro %}"> Eliminar</a></td>
+                 {% endif %}
                 </tr>
                 {% endfor %}
               </tbody>
